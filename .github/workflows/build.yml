@@ -21,7 +21,7 @@ jobs:
           # Linux x64
           # ----------------------------------------------------------------
           - name: Linux x64
-            os: ubuntu-latest
+            os: ubuntu-24.04
             platform: linux
             arch: x64
             dof_lib_glob: 'libdof/build/libdof.so*'
@@ -240,6 +240,10 @@ jobs:
           cp example.py dist/
           cp dof_runner.py dist/
           cp ledcontrol_pull.py dist/
+
+      - name: Check the glibc the libraries need (Linux)
+        if: matrix.platform == 'linux'
+        run: python3 .github/scripts/max_glibc.py dist --limit 2.38
 
       - name: Collect artifacts (Windows)
         if: runner.os == 'Windows'
